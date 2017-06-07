@@ -18,11 +18,12 @@
         android:paddingTop="12dp"
 
         auto:pv_border_color="@color/colorAccent"
-        auto:pv_itemDrawableSize="48dp"
-        auto:pv_itemPadding="0dp"
+        auto:pv_privacyDrawableSize="20dp"
+        auto:pv_is_privacy="true"
+        auto:pv_itemPadding="2dp"
         auto:pv_item_size="48dp"
-        auto:pv_text_size="28dp"
-        auto:pv_text_color="@android:color/black" />
+        auto:pv_text_color="@android:color/black"
+        auto:pv_text_size="28dp" />
 
 
 </LinearLayout>
