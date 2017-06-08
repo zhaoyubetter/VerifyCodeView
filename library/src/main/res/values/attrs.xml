@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="PrivacyLockView">
-        <attr name="pv_itemDrawable" format="reference" />
-        <attr name="pv_itemDrawableSize" format="dimension" />
         <attr name="pv_itemPadding" format="dimension" />
         <attr name="pv_itemCount" format="integer" />
+        <attr name="pv_is_privacy" format="boolean" />      <!-- 是否加密 -->
         <attr name="pv_privacyDrawable" format="reference" />
-        <attr name="pv_privacyDrawableWidth" format="dimension" />
-        <attr name="pv_privacyDrawableHeight" format="dimension" />
-        <attr name="pv_intervalMode" format="enum">
-            <enum name="auto" value="0x00" />
-            <enum name="itemPadding" value="0x01" />
-        </attr>
-
+        <attr name="pv_privacyDrawableSize" format="dimension" />
         <attr name="pv_border_color" format="color" />   <!-- 边框颜色 -->
         <attr name="pv_item_size" format="dimension" />
         <attr name="pv_text_color" format="color" />     <!-- 文字颜色 -->
-        <attr name="pv_encrypt" format="boolean" />      <!-- 是否加密 -->
         <attr name="pv_text_size" format="dimension" />  <!-- 文字大小 -->
     </declare-styleable>
 </resources>
