@@ -19,7 +19,6 @@ import android.view.inputmethod.BaseInputConnection;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -29,28 +28,15 @@ import java.util.ArrayList;
  */
 public class PrivacyLockView extends View {
 
-    /**
-     * 填充模式，自动适配
-     */
-    public static final int AUTO = 0;
-    /**
-     * 填充模式，padding
-     */
-    public static final int ITEM_PADDING = 1;
-
     private final StringBuilder editable;
     private final ArrayList<OnTextChangedListener> listeners;
     private OnTextSubmitListener submitListener;
-    private Drawable itemDrawable;
     /**
      * 个数
      */
     private int itemCount;
     private Drawable privacyDrawable;
-    private int privacyDrawableWidth;
-    private int privacyDrawableHeight;
-    private int itemDrawableSize;
-    private int intervalMode;
+    private int privacyDrawableSize;
     /**
      * 边框颜色
      */
@@ -80,21 +66,18 @@ public class PrivacyLockView extends View {
         setFocusableInTouchMode(true);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PrivacyLockView);
-        setItemDrawable(a.getDrawable(R.styleable.PrivacyLockView_pv_itemDrawable));
-        setItemDrawableSize((int) a.getDimension(R.styleable.PrivacyLockView_pv_itemDrawableSize, 0));
         setItemPadding((int) a.getDimension(R.styleable.PrivacyLockView_pv_itemPadding, 0));
         setItemCount(a.getInteger(R.styleable.PrivacyLockView_pv_itemCount, 6));
         setPrivacyDrawable(a.getDrawable(R.styleable.PrivacyLockView_pv_privacyDrawable));
-        setPrivacyDrawableWidth((int) a.getDimension(R.styleable.PrivacyLockView_pv_privacyDrawableWidth, 0));
-        setPrivacyDrawableHeight((int) a.getDimension(R.styleable.PrivacyLockView_pv_privacyDrawableHeight, 0));
-        setIntervalMode(a.getInt(R.styleable.PrivacyLockView_pv_intervalMode, AUTO));
+        setPrivacyDrawableSize((int) a.getDimension(R.styleable.PrivacyLockView_pv_privacyDrawableSize,
+                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics())));
 
         setBorderColor(a.getColor(R.styleable.PrivacyLockView_pv_border_color, getResources().getColor(android.R.color.darker_gray)));
         setTextColor(a.getColor(R.styleable.PrivacyLockView_pv_text_color, getResources().getColor(android.R.color.black)));
         setItemSize((int) a.getDimension(R.styleable.PrivacyLockView_pv_item_size,
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, getResources().getDisplayMetrics())));
         setItemPadding((int) a.getDimension(R.styleable.PrivacyLockView_pv_itemPadding, 0));
-        setEncrypt(a.getBoolean(R.styleable.PrivacyLockView_pv_encrypt, false));
+        setEncrypt(a.getBoolean(R.styleable.PrivacyLockView_pv_is_privacy, false));
         setTextSize((int) a.getDimension(R.styleable.PrivacyLockView_pv_text_size,
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 16, getResources().getDisplayMetrics())));
         a.recycle();
@@ -133,12 +116,6 @@ public class PrivacyLockView extends View {
         return this;
     }
 
-    public PrivacyLockView setItemDrawable(Drawable drawable) {
-        this.itemDrawable = drawable;
-        invalidate();
-        return this;
-    }
-
     public PrivacyLockView setItemPadding(int itemPadding) {
         this.mItemPadding = itemPadding;
         invalidate();
@@ -151,29 +128,19 @@ public class PrivacyLockView extends View {
         return this;
     }
 
-    public void setPrivacyDrawable(Drawable drawable) {
+    public PrivacyLockView setPrivacyDrawable(Drawable drawable) {
         this.privacyDrawable = drawable;
+        if (this.privacyDrawable == null) {
+            this.privacyDrawable = getResources().getDrawable(R.drawable.lib_ui_privacy_circle_shape);
+        }
         invalidate();
+        return this;
     }
 
-    public void setPrivacyDrawableWidth(int drawableWidth) {
-        this.privacyDrawableWidth = drawableWidth;
+    public PrivacyLockView setPrivacyDrawableSize(int drawableWidth) {
+        this.privacyDrawableSize = drawableWidth;
         invalidate();
-    }
-
-    public void setItemDrawableSize(int size) {
-        this.itemDrawableSize = size;
-        invalidate();
-    }
-
-    public void setPrivacyDrawableHeight(int drawableHeight) {
-        this.privacyDrawableHeight = drawableHeight;
-        invalidate();
-    }
-
-    public void setIntervalMode(int mode) {
-        this.intervalMode = mode;
-        invalidate();
+        return this;
     }
 
     /**
@@ -220,17 +187,8 @@ public class PrivacyLockView extends View {
         if (MeasureSpec.EXACTLY == heightMode) {
             measureHeight = MeasureSpec.getSize(heightMeasureSpec);
         } else {
-            if (null != itemDrawable) {
-                if (0 == itemDrawableSize || AUTO == intervalMode) {
-                    measureHeight += (measureWidth - getPaddingLeft() - getPaddingRight() - (itemCount - 1) * mItemPadding) / itemCount;
-                } else if (ITEM_PADDING == intervalMode) {
-                    measureHeight += itemDrawableSize;
-                }
-            } else {
-                measureHeight += mItemSize;
-            }
+            measureHeight += mItemSize;
         }
-
         setMeasuredDimension(measureWidth, measureHeight);
     }
 
@@ -262,6 +220,7 @@ public class PrivacyLockView extends View {
             imm.hideSoftInputFromWindow(getWindowToken(), 0);
         }
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -303,33 +262,8 @@ public class PrivacyLockView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawItemDrawable(canvas);
-        drawPrivacyDrawable(canvas);
-    }
-
-
-    private void drawItemDrawable(Canvas canvas) {
-        if (null != itemDrawable) {
-            int width = getWidth();
-            int paddingTop = getPaddingTop();
-            int itemSize = 0;
-            if (0 == itemDrawableSize || AUTO == intervalMode) {
-                //取动态计算
-                itemSize = (width - getPaddingLeft() - getPaddingRight() - (itemCount - 1) * mItemPadding) / itemCount;
-            } else if (ITEM_PADDING == intervalMode) {
-                //取设定值
-                itemSize = itemDrawableSize;
-            }
-
-            int offsetLeft = getPaddingLeft();
-            for (int i = 0; i < itemCount; i++) {
-                itemDrawable.setBounds(offsetLeft, paddingTop, offsetLeft + itemSize, paddingTop + itemSize);
-                offsetLeft += (itemSize + mItemPadding);
-                itemDrawable.draw(canvas);
-            }
-        } else {
-            drawRectItem(canvas);
-        }
+        drawRectItem(canvas);
+        drawUserInput(canvas);
     }
 
     /**
@@ -348,37 +282,6 @@ public class PrivacyLockView extends View {
             rect = new Rect(offsetLeft, paddingTop, offsetLeft + mItemSize, paddingTop + mItemSize);
             offsetLeft += mItemSize + mItemPadding;
             canvas.drawRect(rect, mPaint);
-        }
-    }
-
-    /**
-     * 用户输入
-     *
-     * @param canvas
-     */
-    private void drawPrivacyDrawable(Canvas canvas) {
-        if (null != privacyDrawable && 0 != privacyDrawableWidth && 0 != privacyDrawableHeight) {
-            int width = getWidth();
-            int paddingTop = getPaddingTop();
-            int itemSize = 0;
-            if (0 == itemDrawableSize || AUTO == intervalMode) {
-                //取动态计算
-                itemSize = (width - getPaddingLeft() - getPaddingRight() - (itemCount - 1) * mItemPadding) / itemCount;
-            } else if (ITEM_PADDING == intervalMode) {
-                //取设定值
-                itemSize = itemDrawableSize;
-            }
-            int offsetLeft = getPaddingLeft();
-            for (int i = 0; i < editable.length(); i++) {
-                privacyDrawable.setBounds(offsetLeft + itemSize / 2 - privacyDrawableWidth / 2,
-                        paddingTop + itemSize / 2 - privacyDrawableHeight / 2,
-                        offsetLeft + itemSize / 2 + privacyDrawableWidth / 2,
-                        paddingTop + itemSize / 2 + privacyDrawableHeight / 2);
-                offsetLeft += (itemSize + mItemPadding);
-                privacyDrawable.draw(canvas);
-            }
-        } else {
-            drawUserInput(canvas);
         }
     }
 
@@ -403,8 +306,13 @@ public class PrivacyLockView extends View {
 
         for (int i = 0; i < editable.length(); i++) {
             String c = String.valueOf(editable.charAt(i));
-            if (mEncrypt) {
-                c = "";
+            if (mEncrypt) {     // 显示密文
+                privacyDrawable.setBounds(offsetLeft - (privacyDrawableSize) / 2,
+                        getPaddingTop() + mItemSize / 2 - privacyDrawableSize / 2,
+                        offsetLeft - (privacyDrawableSize) / 2 + privacyDrawableSize,
+                        getPaddingTop() + mItemSize / 2 + privacyDrawableSize / 2);
+                offsetLeft += (mItemSize + mItemPadding);
+                privacyDrawable.draw(canvas);
             } else {
                 canvas.drawText(c, offsetLeft, mRect.height() + (getHeight() - mRect.height()) / 2, mPaint);      // // 文字居中处理
                 offsetLeft += mItemSize + mItemPadding;
@@ -482,6 +390,4 @@ public class PrivacyLockView extends View {
     public interface OnTextSubmitListener {
         void onSubmit(CharSequence editable);
     }
-
-
 }
