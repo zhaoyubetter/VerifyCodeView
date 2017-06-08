@@ -7,23 +7,18 @@
     android:orientation="vertical"
     tools:context="ui.github.com.MainActivity">
 
-    <!-- auto:pv_itemDrawable="@drawable/red_round_rectangle"-->
 
-    <ui.github.com.lib.PrivacyLockView
-        android:id="@+id/lock_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#cccccc"
-        android:paddingBottom="12dp"
-        android:paddingTop="12dp"
+    <!-- 基本使用 -->
+    <Button
+        android:id="@+id/btn_base"
+        android:text="基本使用"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-        auto:pv_border_color="@color/colorAccent"
-        auto:pv_privacyDrawableSize="20dp"
-        auto:pv_is_privacy="true"
-        auto:pv_itemPadding="2dp"
-        auto:pv_item_size="48dp"
-        auto:pv_text_color="@android:color/black"
-        auto:pv_text_size="28dp" />
-
+    <Button
+        android:text="结合Dialog"
+        android:id="@+id/btn_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

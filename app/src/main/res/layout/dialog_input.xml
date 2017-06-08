@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:text="请输入动态码"
+        android:textColor="#2d2d2d"
+        android:textSize="15sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#d2d2d2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="16dp"
+        android:text="该会议室需要签到确认，请点击会议室口令令牌中红色按钮，获取验证码，并于1分钟内在下框输入："
+        android:textColor="#5c5c5c"
+        android:textSize="13sp" />
+
+    <ui.github.com.lib.PrivacyLockView
+        android:id="@+id/lock_view"
+        auto:pv_border_color="#d2d2d2"
+        auto:pv_is_privacy="false"
+        auto:pv_itemPadding="0dp"
+        auto:pv_item_size="50dp"
+        auto:pv_text_color="#2d2d2d"
+        auto:pv_text_size="28dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#d2d2d2" />
+
+</LinearLayout>
