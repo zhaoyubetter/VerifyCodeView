@@ -21,6 +21,7 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 參考：cz
@@ -251,12 +252,32 @@ public class PrivacyLockView extends View {
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (KeyEvent.KEYCODE_ENTER == keyCode) {
+        // keycode_del not invoked
+//        if(KeyEvent.KEYCODE_DEL == keyCode) {
+//            deleteLastEditText();
+//            return true;
+//        } else
+    if (KeyEvent.KEYCODE_ENTER == keyCode) {
             hideSortInput();
             return true;
         } else {
             return super.onKeyUp(keyCode, event);
         }
+    }
+
+    /**
+     * ViewGroup never invokes onKeyUp,instead it invokes its own method dispatchKeyEvent,
+     * use this method to del
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if(KeyEvent.KEYCODE_DEL == event.getKeyCode() && event.getAction() == KeyEvent.ACTION_DOWN) {
+            deleteLastEditText();
+            return true;
+        }
+        return super.dispatchKeyEvent(event);
     }
 
     @Override
@@ -361,7 +382,6 @@ public class PrivacyLockView extends View {
             } else {
                 result = super.deleteSurroundingText(beforeLength, afterLength);
             }
-            deleteLastEditText();
             return result;
         }
     }
