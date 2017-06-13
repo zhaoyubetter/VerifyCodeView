@@ -8,7 +8,5 @@
         <attr name="pv_privacyDrawableSize" format="dimension" />
         <attr name="pv_border_color" format="color" />   <!-- 边框颜色 -->
         <attr name="pv_item_size" format="dimension" />
-        <attr name="pv_text_color" format="color" />     <!-- 文字颜色 -->
-        <attr name="pv_text_size" format="dimension" />  <!-- 文字大小 -->
     </declare-styleable>
 </resources>
