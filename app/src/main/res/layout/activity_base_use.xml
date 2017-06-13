@@ -15,32 +15,33 @@
 
     <ui.github.com.lib.PrivacyLockView
         android:id="@+id/lock_view"
+        android:textColor="#000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:background="#cccccc"
+        android:inputType="number"
         android:paddingBottom="12dp"
         android:paddingTop="12dp"
+        android:textSize="18sp"
         auto:pv_border_color="@color/colorAccent"
         auto:pv_is_privacy="false"
         auto:pv_itemPadding="2dp"
         auto:pv_item_size="48dp"
         auto:pv_privacyDrawable="@drawable/lib_ui_privacy_circle_shape"
-        auto:pv_privacyDrawableSize="20dp"
-        auto:pv_text_color="@android:color/black"
-        auto:pv_text_size="28dp" />
+        auto:pv_privacyDrawableSize="20dp" />
 
     <android.support.v7.widget.AppCompatCheckBox
         android:id="@+id/chk"
-        android:text="显示密文"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="显示密文" />
 
     <SeekBar
         android:id="@+id/seekbar"
-        android:progress="4"
-        android:max="10"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:max="10"
+        android:progress="4" />
 
 </LinearLayout>

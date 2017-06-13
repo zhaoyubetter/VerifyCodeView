@@ -51,8 +51,8 @@ public class DialogUseActivity extends AppCompatActivity {
 //                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 //                    imm.hideSoftInputFromWindow(lockView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     // 此处的window为dialog的
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
+//                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+//
                     dialog.dismiss();
                 } else {
                     Toast.makeText(getApplicationContext(), "密码错误：密码为：000000", Toast.LENGTH_SHORT).show();

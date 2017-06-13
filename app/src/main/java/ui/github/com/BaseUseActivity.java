@@ -27,12 +27,6 @@ public class BaseUseActivity extends AppCompatActivity {
         chk = (CheckBox) findViewById(R.id.chk);
         seekbar = (SeekBar) findViewById(R.id.seekbar);
 
-        lock_view.addOnTextChangedListener(new PrivacyLockView.OnTextChangedListener() {
-            @Override
-            public void onTextChanged(CharSequence editable, int lastLength, int length) {
-                userInput.setText(editable);
-            }
-        });
 
         lock_view.setOnTextSubmitListener(new PrivacyLockView.OnTextSubmitListener() {
             @Override

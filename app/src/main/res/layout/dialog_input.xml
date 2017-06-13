@@ -34,10 +34,9 @@
         android:id="@+id/lock_view"
         auto:pv_border_color="#d2d2d2"
         auto:pv_is_privacy="false"
+        android:inputType="number"
         auto:pv_itemPadding="0dp"
         auto:pv_item_size="50dp"
-        auto:pv_text_color="#2d2d2d"
-        auto:pv_text_size="28dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp" />
