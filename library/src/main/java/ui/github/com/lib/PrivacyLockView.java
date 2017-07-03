@@ -183,7 +183,7 @@ public class PrivacyLockView extends EditText {
         RectF rect = new RectF(offsetLeft, getPaddingTop(), getWidth() - offsetLeft, height - getPaddingBottom());
         canvas.drawRoundRect(rect, 2, 2, mPaint);
 
-        for (int i = 0; i < mItemSize - 1; i++) {
+        for (int i = 0; i < itemCount - 1; i++) {
             float startX = offsetLeft + (i + 1) * mItemSize + i * mItemPadding;
             canvas.drawLine(startX, rect.top, startX, rect.bottom, mPaint);
         }
@@ -236,16 +236,27 @@ public class PrivacyLockView extends EditText {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(this, InputMethodManager.SHOW_FORCED);
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(PrivacyLockView.this, 0);
+            }
+        }, 100);
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         super.onWindowFocusChanged(hasWindowFocus);
-        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        final InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (hasWindowFocus) {
-            imm.showSoftInput(this, InputMethodManager.SHOW_FORCED);
+            postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // not called in lifecircle
+                    imm.showSoftInput(PrivacyLockView.this, 0);
+                }
+            }, 100);
         } else {
             imm.hideSoftInputFromWindow(getWindowToken(), 0);
         }

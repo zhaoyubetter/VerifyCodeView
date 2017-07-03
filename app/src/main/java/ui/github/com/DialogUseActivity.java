@@ -36,6 +36,13 @@ public class DialogUseActivity extends AppCompatActivity {
         final View content = inflater.inflate(R.layout.dialog_input, null);
         final PrivacyLockView lockView = (PrivacyLockView) content.findViewById(R.id.lock_view);
 
+        content.findViewById(R.id.title).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
         dialog.setContentView(content);
         final WindowManager.LayoutParams attributes = dialog.getWindow().getAttributes();
         attributes.width = d.getWidth();
@@ -50,7 +57,6 @@ public class DialogUseActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "密码正确", Toast.LENGTH_SHORT).show();
 //                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 //                    imm.hideSoftInputFromWindow(lockView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    // 此处的window为dialog的
 //                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 //
                     dialog.dismiss();
